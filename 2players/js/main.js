@@ -2,10 +2,19 @@
 
 window.addEventListener('load', app);
 
+const score = document.getElementById("score");
+const newscore = document.getElementById("newscore");
 let gameBoard = ['', '', '', '', '', '', '', '', '']; 
 let turn = 0; // Keeps track if X or O player's turn
 let winner = false;
 
+//SCOREBOARD
+const scoreboard = {
+  player: 0,
+  player2: 0,
+  draw: 0,
+  newscore: 0,
+};
 // CREATE PLAYER
 const player = (name) => {
   name = name;
@@ -102,8 +111,8 @@ function makeMove(event) {
 }
 
 function checkIfTie() {
-  if (turn > 7) {
-    alert('game over a tie')
+  if (turn > 9) {
+    alert('game over')
   }
 }
 
@@ -150,13 +159,25 @@ function isWinner() {
           <div class="u-r-winner">You are our winner!</div>
         `;
         winner = true;
+        scoreboard.player++;
         removeCellClickListener();
         return true;
       } else {
+        scoreboard.player2++;
         currentPlayerText.innerHTML = `
           <div class="congratulations">Congratulations ${playerY.name}</div>
           <div class="u-r-winner">You are our winner!</div>
         `;
+        // Show score
+        score.innerHTML = `
+        <p>${this.player1.value} : ${scoreboard.player}</p>
+        <p>${this.player2.value} : ${scoreboard.player2}</p>
+        `;
+        newscore.innerHTML = `
+        <p>Games Played ${turn}</p>
+          `;
+        modal.style.display = "block";
+
         winner = true;
         removeCellClickListener();
         return true;
